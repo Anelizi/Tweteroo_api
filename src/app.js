@@ -1,7 +1,13 @@
 import express from 'express';
-import USER from './user';
-import TWEET from './tweet';
+
+const PORT = 5000;
+const user = [];
+const tweet = [];
 
 const app = express();
 
-app.listen(5000, () => console.log(`Servidor rodando na porta 5000`));
+app.get("/tweets", (req, res) => {
+    res.send("oi")
+})
+
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
