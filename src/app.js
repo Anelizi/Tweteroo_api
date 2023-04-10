@@ -13,10 +13,9 @@ const tweets = [];
 
 app.post("/sign-up", (req, res) => {
   const { username, avatar } = req.body;
-  console.log(req.body);
   userLocalhost = req.body;
 
-  if(!username || !avatar){
+  if (typeof username !== "string" || typeof avatar !== "string") {
     return res.status(400).send("BAD REQUEST");
   }
 
@@ -31,14 +30,13 @@ app.post("/sign-up", (req, res) => {
 
 app.post("/tweets", (req, res) => {
   const { username, tweet } = req.body;
-  console.log(req.body);
 
-  if (!username || !tweet) {
+  if (!username || typeof tweet !== "string") {
     return res.status(400).send("BAD REQUEST");
   }
 
-  if (!userLocalhost){
-    return res.status(401).send("UNAUTHORIZED")
+  if (!userLocalhost) {
+    return res.status(401).send("UNAUTHORIZED");
   }
 
   const newTweets = { ...req.body, avatar: userLocalhost.avatar };
@@ -48,8 +46,14 @@ app.post("/tweets", (req, res) => {
 });
 
 app.get("/tweets", (req, res) => {
-  const tweetsLast = [...tweets].reverse().slice(0,[10])
+  const tweetsLast = [...tweets].reverse().slice(0, [10]);
   res.send(tweetsLast);
 });
 
-app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+app.get("/tweets/:name", (req, res) => {
+  const user = req.params.username;
+  const tweet = tweets.filter((t) => t.name == user);
+  res.send(tweet);
+});
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
