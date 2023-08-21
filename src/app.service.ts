@@ -1,7 +1,13 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { User } from './entities/users.entity';
 import { Tweet } from './entities/tweets.entity';
 import { UserDto } from './dtos/users.dtos';
+import { TweetsDtos } from './dtos/tweets.dtos';
 
 @Injectable()
 export class AppService {
@@ -36,8 +42,21 @@ export class AppService {
   //   return constructorTweets.slice(start, end);
   // }
 
-  postUser(body: UserDto){
-    const user = new User(body.username, body.avatar)
+  postUser(body: UserDto) {
+    const user = new User(body.username, body.avatar);
     return this.users.push(user);
+  }
+
+  userExists(username: string): boolean {
+    return this.users.some((user) => user.username === username);
+  }
+
+  postTwewt(username: string, tweet: string) {
+    const user = this.users.find((u) => u.username === username);
+    if (!user) {
+      throw new NotFoundException();
+    }
+    const tweetInstance = new Tweet(username, tweet, user.avatar);
+    return this.tweets.push(tweetInstance);
   }
 }

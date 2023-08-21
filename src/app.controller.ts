@@ -1,7 +1,14 @@
-import { Body, Controller, Get, HttpCode, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Post,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AppService } from './app.service';
-import { Tweet } from './entities/tweets.entity';
 import { UserDto } from './dtos/users.dtos';
+import { TweetsDtos } from './dtos/tweets.dtos';
 
 @Controller()
 export class AppController {
@@ -22,14 +29,18 @@ export class AppController {
   //   return this.appService.getTweetsUser(username);
   // }
 
-  @Post("/sign-up")
+  @Post('/sign-up')
   @HttpCode(200)
-  postUser(@Body() body: UserDto){
+  postUser(@Body() body: UserDto) {
     return this.appService.postUser(body);
   }
 
-  // @Post("/tweets")
-  // postTwewt(){
-    
-  // }
+  @Post('/tweets')
+  postTweet(@Body() body: TweetsDtos) {
+    const { username, tweet } = body;
+    if (!this.appService.userExists(username)) {
+      throw new UnauthorizedException();
+    }
+    this.appService.postTwewt(username, tweet);
+  }
 }
