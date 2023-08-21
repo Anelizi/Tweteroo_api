@@ -5,11 +5,13 @@ import {
   HttpCode,
   Param,
   Post,
+  Query,
   UnauthorizedException,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { UserDto } from './dtos/users.dtos';
 import { TweetsDtos } from './dtos/tweets.dtos';
+import { Tweet } from './entities/tweets.entity';
 
 @Controller()
 export class AppController {
@@ -20,10 +22,10 @@ export class AppController {
     return this.appService.getHealth();
   }
 
-  // @Get("/tweets")
-  // getTweets(@Query('page') page: number): Tweet[]{
-  //   return this.appService.getTweets(page);
-  // }
+  @Get("/tweets")
+  getTweets(@Query('page') page?: number): Tweet[]{
+    return this.appService.getTweets(page);
+  }
 
   @Get("/tweets/:username")
   getTweetsUser(@Param('username') username: string) {

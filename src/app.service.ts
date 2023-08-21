@@ -7,7 +7,6 @@ import {
 import { User } from './entities/users.entity';
 import { Tweet } from './entities/tweets.entity';
 import { UserDto } from './dtos/users.dtos';
-import { TweetsDtos } from './dtos/tweets.dtos';
 
 @Injectable()
 export class AppService {
@@ -24,23 +23,17 @@ export class AppService {
     return "I'm okay!";
   }
 
-  // getTweets(page?: number): Tweet[] {
-  //   if (page !== undefined && (isNaN(page) || page < 1)) {
-  //     throw new BadRequestException();
-  //   }
+  getTweets(page?: number): Tweet[] {
+    const limit = 15;
 
-  //   const limit = 15;
-  //   const tweetLength = this.tweets.length;
-  //   const start = page == undefined ? limit : page * 10;
-  //   const end = page == undefined ? start - 15 : Math.floor((page * 15) / 2);
-  //   const constructorTweets: Tweet[] = [];
+    if (page !== undefined && (isNaN(page) || page < 1)) {
+      throw new BadRequestException();
+    }
+    const start = page !== undefined ? (page - 1) * limit : 0;
+    const end = start + limit;
 
-  //   for (let i = tweetLength - 1; i >= 0; i--) {
-  //     const tweet = this.tweets[i];
-  //     constructorTweets.push(tweet);
-  //   }
-  //   return constructorTweets.slice(start, end);
-  // }
+    return  this.tweets.slice(start, end);
+  }
 
   getTweetsUser(username: string): Tweet[]{
     return this.tweets.filter(tweet => tweet.username === username);
