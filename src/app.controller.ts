@@ -23,7 +23,7 @@ export class AppController {
   }
 
   @Get("/tweets")
-  getTweets(@Query('page') page?: number): Tweet[]{
+  getTweets(@Query('page') page: number): Tweet[]{
     return this.appService.getTweets(page);
   }
 
