@@ -1,5 +1,5 @@
 export class TweetUser {
-  private username: string;
+  public username: string;
   private tweet: string;
 
   constructor(username: string, tweet: string) {

@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpCode,
+  Param,
   Post,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -24,10 +25,10 @@ export class AppController {
   //   return this.appService.getTweets(page);
   // }
 
-  // @Get("/tweets/:username")
-  // getTweetsUser(@Params(username) username: string) {
-  //   return this.appService.getTweetsUser(username);
-  // }
+  @Get("/tweets/:username")
+  getTweetsUser(@Param('username') username: string) {
+    return this.appService.getTweetsUser(username);
+  }
 
   @Post('/sign-up')
   @HttpCode(200)

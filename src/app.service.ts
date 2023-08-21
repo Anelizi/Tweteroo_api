@@ -42,6 +42,10 @@ export class AppService {
   //   return constructorTweets.slice(start, end);
   // }
 
+  getTweetsUser(username: string): Tweet[]{
+    return this.tweets.filter(tweet => tweet.username === username);
+  }
+
   postUser(body: UserDto) {
     const user = new User(body.username, body.avatar);
     return this.users.push(user);
