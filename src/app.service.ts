@@ -38,7 +38,6 @@ export class AppService {
 
   postUser(body: UserDto){
     const user = new User(body.username, body.avatar)
-    this.users.push(user);
-    return 'Usuario criado';
+    return this.users.push(user);
   }
 }
